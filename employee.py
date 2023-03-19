@@ -3,6 +3,7 @@ class employee:
         self.employee_name = employee_name
         self.code = code
         self.categories = {}
+        # stored as ints
         self.tip = 0
         self.reimbursement = 0
     def update_hours(self, category, hours):
@@ -14,6 +15,10 @@ class employee:
         self.tip += tip
     def update_reimbursement(self, reimbursement):
         self.reimbursement += reimbursement
+    def final_output(self):
+        # subtract overtime from 'regular' hours
+        # convert back to floats
+        
+        pass
     def __str__(self):
-        print(self.categories)
-        return self.employee_name + " " + self.code + " " + str(self.tip) + " " + str(self.reimbursement)
+        return self.employee_name + " " + self.code + " " + str(self.tip / 100) + " " + str(self.reimbursement / 100) + ' ' + str(self.categories)
