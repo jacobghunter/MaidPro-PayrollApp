@@ -15,10 +15,21 @@ if __name__ == "__main__":
 
     tkinter.Tk().withdraw() # prevents an empty tkinter window from appearing
     file_path = filedialog.askopenfilename(filetypes=[("Excel files", ".xlsx .xls")])
+    if not file_path:
+        messagebox.showerror("PayrollApp Error", f"Error in opening file, check spreadsheet and try again")
 
-    wb = load_workbook(file_path)
+    try:
+        wb = load_workbook(file_path)
+    except:
+        messagebox.showerror("PayrollApp Error", f"Make sure the excel file is not corrupted")
+        exit(1)
 
-    codesFile = pd.read_excel(file_path, sheet_name=EMPLOYEE_CODES)
+    try:
+        codesFile = pd.read_excel(file_path, sheet_name=EMPLOYEE_CODES)
+    except ValueError:
+        messagebox.showerror("PayrollApp Error", f"Missing employee codes sheet")
+        exit(1)
+
     tempCodes = np.asarray(codesFile)
 
     # reading in employee codes
@@ -31,6 +42,8 @@ if __name__ == "__main__":
         if len(tempList) != 0:
             codes.append(tempList)
 
+
+    # data file has to be first one
     dataFile = pd.read_excel(file_path)
     tempData = np.asarray(dataFile)
 
@@ -72,7 +85,7 @@ if __name__ == "__main__":
 
     # add pop up for all missing names
     if len(missing_names) > 0:
-        messagebox.showerror("Python Error", f"Missing employee code for {missing_names}")
+        messagebox.showerror("PayrollApp Error", f"Missing employee code for {missing_names}")
         exit(1)
 
     # performing final calculation and outputting
@@ -80,4 +93,4 @@ if __name__ == "__main__":
     for person in employees.values():
         final_output.append(person.final_hours())
     
-    np.savetxt("output.csv", final_output, delimiter=", ",fmt='% s')
+    np.savetxt("payroll_output.csv", final_output, delimiter=", ",fmt='% s')
