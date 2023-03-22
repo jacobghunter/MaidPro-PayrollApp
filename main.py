@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import numpy as np
 import tkinter
@@ -17,6 +18,7 @@ if __name__ == "__main__":
     file_path = filedialog.askopenfilename(filetypes=[("Excel files", ".xlsx .xls")])
     if not file_path:
         messagebox.showerror("PayrollApp Error", f"Error in opening file, check spreadsheet and try again")
+        exit(1)
 
     try:
         wb = load_workbook(file_path)
@@ -94,3 +96,4 @@ if __name__ == "__main__":
         final_output.append(person.final_hours())
     
     np.savetxt("payroll_output.csv", final_output, delimiter=", ",fmt='% s')
+    messagebox.showinfo("PayrollApp", f"Output file went to: { os.path.dirname(os.path.realpath(__file__)) }")
