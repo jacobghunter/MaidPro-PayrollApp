@@ -67,7 +67,7 @@ if __name__ == "__main__":
     employees = {}
     for code in codes:
         if str(code[0]) != 'nan': 
-            name = code[0].lower() + ' ' + code[1].lower()
+            name = code[0].lower().strip() + ' ' + code[1].lower().strip()
             employees[name] = employee(name, code[2])
 
     missing_names = set()
