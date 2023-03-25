@@ -2,14 +2,12 @@ import os
 import pandas as pd
 import numpy as np
 import tkinter
+import datetime
 from tkinter import filedialog
 from tkinter import messagebox
 from openpyxl import load_workbook
 
-import datetime
-
 from employee import employee
-import math
 
 if __name__ == "__main__":
     EMPLOYEE_CODES = 'Employee Codes'
@@ -29,7 +27,7 @@ if __name__ == "__main__":
     try:
         codesFile = pd.read_excel(file_path, sheet_name=EMPLOYEE_CODES)
     except ValueError:
-        messagebox.showerror("PayrollApp Error", f"Missing employee codes sheet")
+        messagebox.showerror("PayrollApp Error", f"Missing 'Employee Codes' sheet")
         exit(1)
 
     tempCodes = np.asarray(codesFile)
@@ -95,5 +93,5 @@ if __name__ == "__main__":
     for person in employees.values():
         final_output.append(person.final_hours())
     
-    np.savetxt("payroll_output.csv", final_output, delimiter=", ",fmt='% s')
-    messagebox.showinfo("PayrollApp", f"Output file went to: { os.path.dirname(os.path.realpath(__file__)) }")
+    np.savetxt(os.path.join(os.path.split(file_path)[0], "payroll_output.csv"), final_output, delimiter=", ",fmt='% s')
+    messagebox.showinfo("PayrollApp", f"Output file went to: { os.path.split(file_path)[0] }")
