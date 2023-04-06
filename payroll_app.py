@@ -68,7 +68,7 @@ if __name__ == "__main__":
     for code in codes:
         if str(code[0]) != 'nan': 
             name = code[0].lower().strip() + ' ' + code[1].lower().strip()
-            employees[name] = employee(name, code[2])
+            employees[name] = employee(name, code[2].replace("-",""))
 
     missing_names = set()
 
@@ -93,5 +93,10 @@ if __name__ == "__main__":
     for person in employees.values():
         final_output.append(person.final_hours())
     
-    np.savetxt(os.path.join(os.path.split(file_path)[0], "payroll_output.csv"), final_output, delimiter=", ",fmt='% s')
+    try:
+        np.savetxt(os.path.join(os.path.split(file_path)[0], "payroll_output.csv"), final_output, delimiter=", ",fmt='% s')
+    except:
+        messagebox.showerror("PayrollApp", f"Please close the previous output file")
+        exit(1)
+
     messagebox.showinfo("PayrollApp", f"Output file went to: { os.path.split(file_path)[0] }")
