@@ -1,5 +1,5 @@
 class employee:    
-    def __init__(self, employee_name, code):
+    def __init__(self, employee_name = None, code = None):
         self.employee_name = employee_name
         self.code = code
         # stored as ints
@@ -51,7 +51,20 @@ class employee:
         # for if they have no regular hours
         if self.hours["regular"] < 0:
             self.hours["regular"] = 0
-        return [self.code] + [item / 100 for item in self.hours.values()]
+        hours = []
+        for item in self.hours.values():
+            if item == 0:
+                hours.append('')
+            else:
+                hours.append(item / 100)
+                # [item / 100 for item in self.hours.values()]
+        return [self.code] + hours
 
     def __str__(self):
         return self.employee_name + " " + self.code + " " + str(self.tip / 100) + " " + str(self.reimbursement / 100) + ' ' + str(self.hours)
+    
+    def __eq__(self, other):
+        if self.hours == other.hours:
+            return True
+        else:
+            return False

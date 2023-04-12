@@ -67,8 +67,15 @@ if __name__ == "__main__":
     employees = {}
     for code in codes:
         if str(code[0]) != 'nan': 
-            name = code[0].lower().strip() + ' ' + code[1].lower().strip()
-            employees[name] = employee(name, code[2].replace("-",""))
+            try:
+                name = code[0].lower().strip() + ' ' + code[1].lower().strip()
+            except AttributeError:
+                messagebox.showerror("PayrollApp Error", f"Please remove the last line in the codes file")
+                exit(1)
+            if type(code[2]) == 'str':
+                employees[name] = employee(name, str(code[2]).replace("-",""))
+            else:
+                employees[name] = employee(name, str(int(code[2])))
 
     missing_names = set()
 
@@ -89,9 +96,9 @@ if __name__ == "__main__":
         exit(1)
 
     # performing final calculation and outputting
-    final_output = []
-    for person in employees.values():
-        final_output.append(person.final_hours())
+    final_output = employees.values()
+
+    final_output = [output.final_hours() for output in final_output if output != employee()]
     
     try:
         np.savetxt(os.path.join(os.path.split(file_path)[0], "payroll_output.csv"), final_output, delimiter=", ",fmt='% s')
