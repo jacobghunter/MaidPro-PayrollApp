@@ -58,7 +58,8 @@ class employee:
             else:
                 hours.append(item / 100)
                 # [item / 100 for item in self.hours.values()]
-        return [self.code] + hours
+        codeOut = "0" * (9 - len(str(self.code))) + str(self.code)
+        return [codeOut] + hours
 
     def __str__(self):
         return self.employee_name + " " + self.code + " " + str(self.tip / 100) + " " + str(self.reimbursement / 100) + ' ' + str(self.hours)
