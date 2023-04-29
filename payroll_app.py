@@ -139,7 +139,12 @@ if __name__ == "__main__":
     # performing final calculation and outputting
     final_output = employees.values()
     final_output = [output.final_hours() for output in final_output if output != employee()]
-    
+
+    outputString = f"Output file went to: { os.path.split(file_path)[0] } \n"
+
+    for index, item in enumerate(final_output):
+        if item[0][0] == "0":
+            outputString += f"\nLeading 0 error in ssn row {index}"
 
     
     try:
@@ -149,5 +154,5 @@ if __name__ == "__main__":
         exit(1)
 
     tkinter.Tk().withdraw()
-    messagebox.showinfo("PayrollApp", f"Output file went to: { os.path.split(file_path)[0] }")
+    messagebox.showinfo("PayrollApp", outputString)
     exit(0)
